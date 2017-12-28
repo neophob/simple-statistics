@@ -2,8 +2,9 @@
 
 const Statistics = module.exports = function(options) {
   this.cache = new Map();
-  this.nrErrorsToTrack = options.errorEntriesToTrack;
+  this.nrErrorsToTrack = options && options.errorEntriesToTrack ? options.errorEntriesToTrack : 10;
   this.lasterrors = {};
+  this.errorSlot = 0;
 };
 
 Statistics.prototype.setValue = function(key, value) {
@@ -34,6 +35,12 @@ Statistics.prototype.getLastErrors = function() {
   return this.lasterrors;
 };
 
+Statistics.prototype.addErrorMessage = function(msg) {
+  this.lasterrors[this.errorSlot] = msg;
+  this.errorSlot = (this.errorSlot + 1) % this.nrErrorsToTrack;
+};
+
 Statistics.prototype.clearStatistics = function() {
   this.cache.clear();
+  this.lasterrors = {};
 };
