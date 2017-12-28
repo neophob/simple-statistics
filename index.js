@@ -14,7 +14,7 @@ Statistics.prototype.setValue = function(key, value) {
 Statistics.prototype.increaseCounter = function(key, amount) {
   const _amount = amount || 1;
   let value = this.cache.get(key);
-  if (!value) {
+  if (!Number.isInteger(value)) {
     value = _amount;
   } else {
     value += _amount;

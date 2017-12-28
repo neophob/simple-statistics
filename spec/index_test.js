@@ -73,6 +73,16 @@ describe('./statistics.js', function() {
     expect(result[key1]).to.equal('-22');
   });
 
+  it('should overwrite invalid value', function() {
+    const key1 = 'mykey1';
+    statistics.setValue(key1, 'foo');
+    statistics.increaseCounter(key1);
+
+    const result = statistics.getStatistic();
+
+    expect(result[key1]).to.equal(1);
+  });
+
   it('should flush cache', function() {
     const key = 'mykey';
     statistics.increaseCounter(key);
